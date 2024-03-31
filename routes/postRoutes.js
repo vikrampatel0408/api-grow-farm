@@ -7,6 +7,7 @@ import {
   likePost,
   addComment,
   deletePost,
+  getComments,
 } from "../controllers/postController.js";
 import multer from "multer";
 const router = express.Router();
@@ -20,5 +21,5 @@ router.delete("/deletepost/:postId", deletePost);
 router.get("/getpost/:postId", getPost);
 router.get("/gethomepagepost/:id", getPostsForHomePage);
 router.get("/getuserpost/:id", getUserPost);
-
+router.get("/getcomments/:id",getComments);
 export default router;
