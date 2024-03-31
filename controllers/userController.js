@@ -248,7 +248,7 @@ const getFollowers = async (req, res) => {
   if (user) {
     const followers = await User.find({_id :{$in: user.followers} }).select({name:1,roles:1,_id:1});
 
-    res.status(200).json({ result: followers });
+    res.status(200).json({ users: followers });
   } else {
     res.status(404).json({ message: "User not found" });
   }
