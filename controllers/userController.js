@@ -222,8 +222,10 @@ const unFollowUser = async (req, res) => {
     if (followerIndex !== -1) {
       user.followers.splice(followerIndex, 1);
     }
-
-    currentUser.following = currentUser.following.filter((id) => id !== id);
+    const followingIndex = currentUser.following.indexOf(id);
+    if (followingIndex !== -1) {
+      currentUser.following.splice(followingIndex, 1);
+    }
     await user.save();
     await currentUser.save();
     res.status(200).json({ message: "Successfully unfollowed the user." });
