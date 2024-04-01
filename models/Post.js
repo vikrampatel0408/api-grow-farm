@@ -11,6 +11,11 @@ const postSchema = mongoose.Schema(
       ref: "User",
       required: true,
     },
+    roles: {
+      type: String,
+      enum: ["Farmer", "Doctor", "Shopowner", "Broker", "Other"],
+      default: "Farmer",
+    },
     description: {
       type: String,
       required: true,

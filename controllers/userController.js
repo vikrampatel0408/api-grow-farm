@@ -248,7 +248,11 @@ const getFollowers = async (req, res) => {
   const id = req.params.id;
   const user = await User.findById(id);
   if (user) {
-    const followers = await User.find({_id :{$in: user.followers} }).select({name:1,roles:1,_id:1});
+    const followers = await User.find({ _id: { $in: user.followers } }).select({
+      name: 1,
+      roles: 1,
+      _id: 1,
+    });
 
     res.status(200).json({ users: followers });
   } else {
@@ -259,13 +263,28 @@ const getFollowing = async (req, res) => {
   const id = req.params.id;
   const user = await User.findById(id);
   if (user) {
-    const following = await User.find({_id: {$in : user.following } }).select({name:1,roles:1,_id:1});
+    const following = await User.find({ _id: { $in: user.following } }).select({
+      name: 1,
+      roles: 1,
+      _id: 1,
+    });
 
-    res.status(200).json({users: following});
+    res.status(200).json({ users: following });
   } else {
     res.status(404).json({ message: "User not found" });
   }
 };
+const getnousers = async (req, res) => {
+  let users = await User.find();
+  users = users.map((user) => {
+    return {
+      createdAt: user.createdAt,
+      roles: user.roles,
+    };
+  });
+  res.status(200).json({ users });
+};
+
 export {
   registerUserF,
   registerUserS,
@@ -278,4 +297,5 @@ export {
   getUsers,
   getFollowers,
   getFollowing,
+  getnousers,
 };

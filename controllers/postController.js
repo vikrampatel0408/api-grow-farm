@@ -30,6 +30,7 @@ const addPost = asyncHandler(async (req, res) => {
       const post = await Post.create({
         postTitle: postTitle,
         user: userId,
+        roles: user.roles,
         description: description,
         postMedia: postMedia,
       });
@@ -120,7 +121,7 @@ const deletePost = async (req, res) => {
       const publicId = post.postMedia[0];
 
       let cloudinary_publicId = publicId.split("/").pop();
-      cloudinary_publicId = cloudinary_publicId.slice(0, -4)
+      cloudinary_publicId = cloudinary_publicId.slice(0, -4);
 
       // console.log(publicId)
       cloudinary.v2.api.delete_resources([cloudinary_publicId], {
@@ -227,23 +228,33 @@ const getComments = async (req, res) => {
       return res.status(204).json({ message: "No Comments for this post" });
     }
     let postComments = await Comment.find({ _id: { $in: Comments.comments } })
-    .select({createdAt:0,updatedAt:0,__v:0,_id:0}).populate( "user",{name:1,_id:0} );
+    .select({createdAt:0,updatedAt:0,__v:0}).populate( "user",{name:1,_id:0} );
      postComments = postComments.map((comments)=>({
       ...comments.toObject(),
+      _id : comments._id,
       username : comments.user.name,
      }))
      postComments.forEach((comments)=>{
       delete comments.user;
      })
     console.log(postComments);
-    return res.status(200).json({ result: postComments });
+    return res.status(200).json({ comments: postComments });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-
 };
-
+const getnoposts = async (req, res) => {
+  let posts = await Post.find();
+  posts = posts.map((post) => {
+    return {
+      roles: post.roles,
+      likes: post.likes.length,
+      createdAt: post.createdAt,
+    };
+  });
+  res.status(200).json({ posts });
+};
 export {
   addPost,
   getPostsForHomePage,
@@ -252,5 +263,6 @@ export {
   likePost,
   addComment,
   deletePost,
-  getComments
+  getComments,
+  getnoposts,
 };
