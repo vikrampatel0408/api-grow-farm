@@ -227,11 +227,18 @@ const getComments = async (req, res) => {
     if (Comments.comments.length === 0) {
       return res.status(204).json({ message: "No Comments for this post" });
     }
-    const postComments = await Comment.find({ _id: { $in: Comments.comments } })
-      .select({ createdAt: 0, updatedAt: 0, __v: 0, _id: 0 })
-      .populate("user", { name: 1, _id: 0 });
-    // console.log(postComments);
-    return res.status(200).json({ result: postComments });
+    let postComments = await Comment.find({ _id: { $in: Comments.comments } })
+    .select({createdAt:0,updatedAt:0,__v:0}).populate( "user",{name:1,_id:0} );
+     postComments = postComments.map((comments)=>({
+      ...comments.toObject(),
+      _id : comments._id,
+      username : comments.user.name,
+     }))
+     postComments.forEach((comments)=>{
+      delete comments.user;
+     })
+    console.log(postComments);
+    return res.status(200).json({ comments: postComments });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
