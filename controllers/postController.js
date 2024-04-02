@@ -93,19 +93,21 @@ const getUserPost = async (req, res) => {
       })
       .populate({
         path: "user",
-        select: "name roles following followers",
+        select: "name roles following followers profilePicture",
       });
+      const followers = posts[0].user.followers.length;
+      const following = posts[0].user.following.length;
+      const profilePicture = posts[0].user.profilePicture;
     posts = posts.map((post) => ({
       ...post.toObject(),
       name: post.user.name,
       roles: post.user.roles,
-      following: post.user.following.length,
-      followers: post.user.followers.length,
+     
     }));
     posts.forEach((post) => {
       delete post.user;
     });
-    res.status(200).json({ result: posts });
+    res.status(200).json({ result: posts,followers:followers,following:following,profilePicture:profilePicture });
   } catch (error) {
     res.status(500).json({
       message: "Something went wrong",
