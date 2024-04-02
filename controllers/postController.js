@@ -85,6 +85,7 @@ const getPostsForHomePage = async (req, res) => {
 };
 const getUserPost = async (req, res) => {
   const id = req.params.id;
+  let user = await User.findById(id).select({followers:1,following:1,profilePicture:1,_id:0});
   try {
     let posts = await Post.find({ user: id })
       .select({
@@ -115,7 +116,10 @@ const getUserPost = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({
-     result:{}
+     result:{},
+     followers: user.followers.length,
+     following: user.following.length,
+     profilePicture: user.profilePicture
     });
   }
 };
