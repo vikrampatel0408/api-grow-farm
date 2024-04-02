@@ -95,22 +95,27 @@ const getUserPost = async (req, res) => {
         path: "user",
         select: "name roles following followers profilePicture",
       });
+    if (posts) {
       const followers = posts[0].user.followers.length;
       const following = posts[0].user.following.length;
       const profilePicture = posts[0].user.profilePicture;
-    posts = posts.map((post) => ({
-      ...post.toObject(),
-      name: post.user.name,
-      roles: post.user.roles,
-     
-    }));
-    posts.forEach((post) => {
-      delete post.user;
-    });
-    res.status(200).json({ result: posts,followers:followers,following:following,profilePicture:profilePicture });
+      //  console.log(profilePicture);
+
+      posts = posts.map((post) => ({
+        ...post.toObject(),
+        name: post.user.name,
+        roles: post.user.roles,
+      }));
+      posts.forEach((post) => {
+        delete post.user;
+      });
+      res.status(200).json({ result: posts, followers: followers, following: following, profilePicture: profilePicture })
+    } else {
+      return res.status(401).json({ result: {} });
+    }
   } catch (error) {
     res.status(500).json({
-      message: "Something went wrong",
+     result:{}
     });
   }
 };
@@ -230,15 +235,15 @@ const getComments = async (req, res) => {
       return res.status(204).json({ message: "No Comments for this post" });
     }
     let postComments = await Comment.find({ _id: { $in: Comments.comments } })
-    .select({createdAt:0,updatedAt:0,__v:0}).populate( "user",{name:1,_id:0} );
-     postComments = postComments.map((comments)=>({
+      .select({ createdAt: 0, updatedAt: 0, __v: 0 }).populate("user", { name: 1, _id: 0 });
+    postComments = postComments.map((comments) => ({
       ...comments.toObject(),
-      _id : comments._id,
-      username : comments.user.name,
-     }))
-     postComments.forEach((comments)=>{
+      _id: comments._id,
+      username: comments.user.name,
+    }))
+    postComments.forEach((comments) => {
       delete comments.user;
-     })
+    })
     console.log(postComments);
     return res.status(200).json({ comments: postComments });
   } catch (error) {
