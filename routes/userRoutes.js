@@ -15,7 +15,7 @@ import {
 } from "../controllers/userController.js";
 import { sendOTP, verifyOTP } from "../controllers/otpController.js";
 import multer from "multer";
-import { addFeedback } from "../controllers/feedbackController.js";
+import { addFeedback, getFeedback } from "../controllers/feedbackController.js";
 const router = express.Router();
 const storage = multer.memoryStorage();
 const multerUploads = multer({ storage }).single("file");
@@ -35,4 +35,5 @@ router.post("/twilio-sms/send-otp", sendOTP);
 router.post("/twilio-sms/verify-otp", verifyOTP);
 router.get("/getnousers", getnousers);
 router.post("/feedback",addFeedback);
+router.get("/feedback",getFeedback);
 export default router;
