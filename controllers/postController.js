@@ -62,12 +62,13 @@ const getPostsForHomePage = async (req, res) => {
     const { following } = user;
     let homePosts = await Post.find({ user: { $in: following } }).populate(
       "user",
-      { name: 1, roles: 1 }
+      { name: 1, roles: 1 ,profilePicture:1}
     );
     homePosts = homePosts.map((post) => ({
       ...post.toObject(),
       name: post.user.name,
       roles: post.user.roles,
+      profilePicture: post.user.profilePicture,
     }));
     homePosts.forEach((post) => {
       delete post.user;

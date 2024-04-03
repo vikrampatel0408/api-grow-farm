@@ -17,6 +17,7 @@ const getUsers = asyncHandler(async (req, res) => {
         _id: user._id,
         name: user.name,
         roles: user.roles,
+        profilePicture: user.profilePicture,
       };
     });
     res.status(200).json({ users: result });
@@ -252,6 +253,7 @@ const getFollowers = async (req, res) => {
       name: 1,
       roles: 1,
       _id: 1,
+      profilePicture:1
     });
 
     res.status(200).json({ users: followers });
@@ -267,6 +269,7 @@ const getFollowing = async (req, res) => {
       name: 1,
       roles: 1,
       _id: 1,
+      profilePicture:1,
     });
 
     res.status(200).json({ users: following });
