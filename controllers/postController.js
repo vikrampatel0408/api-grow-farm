@@ -114,7 +114,7 @@ const getUserPost = async (req, res) => {
       });
       res.status(200).json({ result: posts, followers: followers, following: following, profilePicture: profilePicture })
     } else {
-      return res.status(401).json({
+      return res.status(200).json({
         result: { }, followers: user.followers.length,
         following: user.following.length,
         profilePicture: user.profilePicture
