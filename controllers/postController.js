@@ -62,7 +62,7 @@ const getPostsForHomePage = async (req, res) => {
     const { following } = user;
     let homePosts = await Post.find({ user: { $in: following } }).populate(
       "user",
-      { name: 1, roles: 1 ,profilePicture:1}
+      { name: 1, roles: 1, profilePicture: 1 }
     );
     homePosts = homePosts.map((post) => ({
       ...post.toObject(),
@@ -86,7 +86,7 @@ const getPostsForHomePage = async (req, res) => {
 };
 const getUserPost = async (req, res) => {
   const id = req.params.id;
-  let user = await User.findById(id).select({followers:1,following:1,profilePicture:1,_id:0});
+  let user = await User.findById(id).select({ followers: 1, following: 1, profilePicture: 1, _id: 0 });
   try {
     let posts = await Post.find({ user: id })
       .select({
@@ -97,7 +97,8 @@ const getUserPost = async (req, res) => {
         path: "user",
         select: "name roles following followers profilePicture",
       });
-    if (posts) {
+      // console.log(posts);
+    if (posts.length != 0) {
       const followers = posts[0].user.followers.length;
       const following = posts[0].user.following.length;
       const profilePicture = posts[0].user.profilePicture;
@@ -113,14 +114,15 @@ const getUserPost = async (req, res) => {
       });
       res.status(200).json({ result: posts, followers: followers, following: following, profilePicture: profilePicture })
     } else {
-      return res.status(401).json({ result: {} });
+      return res.status(401).json({
+        result: { }, followers: user.followers.length,
+        following: user.following.length,
+        profilePicture: user.profilePicture
+      });
     }
   } catch (error) {
     res.status(500).json({
-     result:{},
-     followers: user.followers.length,
-     following: user.following.length,
-     profilePicture: user.profilePicture
+      message: "Internal server error"
     });
   }
 };
