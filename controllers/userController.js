@@ -100,16 +100,7 @@ const registerUserS = asyncHandler(async (req, res) => {
     const updatedUser = await user.save();
 
     res.status(200).json({
-      _id: updatedUser._id,
-      name: updatedUser.name,
-      phoneNumber: updatedUser.phoneNumber,
-      gender: updatedUser.gender,
-      roles: updatedUser.roles,
-      district: updatedUser.district,
-      pincode: updatedUser.pincode,
-      profilePicture: updatedUser.profilePicture,
-      createdAt: updatedUser.createdAt,
-      updatedAt: updatedUser.updatedAt,
+      message : "User Profile Updated Successfully"
     });
   } else {
     res.status(404);
