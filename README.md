@@ -39,51 +39,7 @@ Make sure you have the following installed on your system:
 1. Clone the repository:
    ```sh
    git clone https://github.com/vikrampatel0408/api-grow-farm.git
-2. 
-Sure! Here's a README.md code for your project:
-
-markdown
-Copy code
-# GrowFarm — Kotlin NodeJS REST
-
-GrowFarm is a social media mobile application designed to be a hub for information, ideas, and doubt sharing among farmers, botanists, and brokers. The project encompasses a mobile application, a commercial website, and a containerized API, providing a comprehensive platform for agricultural networking and knowledge exchange.
-
-## Features
-
-- **Social Media Platform**: Facilitates information exchange and networking among farmers, botanists, and brokers.
-- **Mobile Application**: Front-end built with Kotlin.
-- **Commercial Website**: Developed using React JS.
-- **RESTful Architecture**: Ensures a scalable and maintainable application structure.
-- **Containerized API**: Utilizes Docker for containerization.
-- **Database Management**: MongoDB is used for managing the application's data.
-
-## Tech Stack
-
-- **Front-End (Mobile App)**: Kotlin
-- **Front-End (Website)**: React JS
-- **Back-End**: Node.js
-- **Database**: MongoDB
-- **Hosting**: Vercel
-- **Containerization**: Docker
-
-## Getting Started
-
-Follow these instructions to set up the project on your local machine for development and testing purposes.
-
-### Prerequisites
-
-Make sure you have the following installed on your system:
-
-- [Node.js](https://nodejs.org/)
-- [MongoDB](https://www.mongodb.com/)
-- [Docker](https://www.docker.com/)
-
-### Installation
-
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/yourusername/growfarm.git
-
+   
 2. Navigate to the project directory
     ```sh
     cd api-grow-farm
